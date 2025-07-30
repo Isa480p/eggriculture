@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://c2e51b4dvpdny"]
 
 [ext_resource type="Texture2D" uid="uid://bydi4qlalwmaj" path="res://assets/game/objects/egg_item.png" id="1_cp88j"]
-[ext_resource type="Script" path="res://scenes/objects/trees/button_test.gd" id="3_xg1qn"]
+[ext_resource type="Script" uid="uid://dwtf2nmlih2i8" path="res://scenes/objects/trees/button_test.gd" id="3_xg1qn"]
 
 [sub_resource type="Curve" id="Curve_ye7g1"]
 _data = [Vector2(0.0190217, 1), 0.0, 0.0, 0, 0, Vector2(0.98913, 0.31579), 0.0, 0.0, 0, 0]

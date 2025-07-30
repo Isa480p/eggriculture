@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://et0h3hrscp7q"]
 
-[ext_resource type="Script" path="res://scenes/objects/trees/woodparticles_test.gd" id="1_ox4eg"]
+[ext_resource type="Script" uid="uid://dx44devifc1om" path="res://scenes/objects/trees/woodparticles_test.gd" id="1_ox4eg"]
 [ext_resource type="Texture2D" uid="uid://bydi4qlalwmaj" path="res://assets/game/objects/egg_item.png" id="2_obljw"]
 
 [sub_resource type="Theme" id="Theme_kxf08"]
