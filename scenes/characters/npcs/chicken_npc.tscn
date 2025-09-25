@@ -1,0 +1,83 @@
+[gd_scene load_steps=11 format=3 uid="uid://3ycdeyx50day"]
+
+[ext_resource type="Script" uid="uid://ci2rj8x5hh5i4" path="res://scripts/state_machine/node_state_machine.gd" id="1_d3kig"]
+[ext_resource type="Texture2D" uid="uid://c0c5g58gd3r4j" path="res://assets/game/characters/chicken.png" id="2_d3kig"]
+[ext_resource type="Script" uid="uid://dwpugu83xptiy" path="res://scenes/characters/npcs/idle_state.gd" id="3_bj461"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bj461"]
+atlas = ExtResource("2_d3kig")
+region = Rect2(20, 0, 20, 20)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_llc1x"]
+atlas = ExtResource("2_d3kig")
+region = Rect2(20, 20, 20, 20)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cbudv"]
+atlas = ExtResource("2_d3kig")
+region = Rect2(0, 0, 20, 20)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_apsn7"]
+atlas = ExtResource("2_d3kig")
+region = Rect2(0, 20, 20, 20)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_d3kig"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bj461")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_llc1x")
+}],
+"loop": true,
+"name": &"chicken_idle",
+"speed": 3.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cbudv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_apsn7")
+}],
+"loop": true,
+"name": &"chicken_walk",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_bj461"]
+radius = 4.12311
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xy0ba"]
+
+[node name="chicken_npc" type="CharacterBody2D"]
+script = ExtResource("1_d3kig")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -5)
+sprite_frames = SubResource("SpriteFrames_d3kig")
+animation = &"chicken_idle"
+frame_progress = 0.447139
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -4)
+shape = SubResource("CircleShape2D_bj461")
+
+[node name="chat_detection_area" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="chat_detection_area"]
+position = Vector2(0, -5)
+shape = SubResource("RectangleShape2D_xy0ba")
+debug_color = Color(0.79924, 0.364305, 0.558073, 0.42)
+
+[node name="Timer" type="Timer" parent="chat_detection_area/CollisionShape2D"]
+autostart = true
+
+[node name="StateMachine" type="Node2D" parent="." node_paths=PackedStringArray("initial_node_state")]
+script = ExtResource("1_d3kig")
+initial_node_state = NodePath("idle")
+
+[node name="idle" type="Node2D" parent="StateMachine" node_paths=PackedStringArray("character", "animated_sprite_2d")]
+script = ExtResource("3_bj461")
+character = NodePath("../..")
+animated_sprite_2d = NodePath("../../AnimatedSprite2D")

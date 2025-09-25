@@ -1,0 +1,72 @@
+[gd_scene load_steps=12 format=3 uid="uid://cxr1cs8s3udgr"]
+
+[ext_resource type="Shader" uid="uid://q0v11fgxfewq" path="res://scenes/objects/rocks/shake.gdshader" id="1_f4wgc"]
+[ext_resource type="Script" uid="uid://brrutjg1k0o2q" path="res://scenes/objects/trees/large_tree.gd" id="2_4wg7c"]
+[ext_resource type="Texture2D" uid="uid://cvuky1x6rjqij" path="res://assets/game/objects/trees.png" id="2_f4wgc"]
+[ext_resource type="PackedScene" uid="uid://qottdfr5nd1w" path="res://scenes/components/hurt_component.tscn" id="3_rcpm7"]
+[ext_resource type="PackedScene" uid="uid://d3y81wlg7am1d" path="res://scenes/components/damage_component.tscn" id="4_cw5ug"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_6vpey"]
+resource_local_to_scene = true
+shader = ExtResource("1_f4wgc")
+shader_parameter/shake_intensity = 0.0
+shader_parameter/shake_speed = 15.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6vpey"]
+atlas = ExtResource("2_f4wgc")
+region = Rect2(8, 11, 22, 24)
+
+[sub_resource type="Curve" id="Curve_f4wgc"]
+_data = [Vector2(0.0190217, 1), 0.0, 0.0, 0, 0, Vector2(0.98913, 0.31579), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Gradient" id="Gradient_6vpey"]
+colors = PackedColorArray(0.249942, 0.168444, 0.0776024, 1, 0.328038, 0.240314, 0.14273, 1)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_kiw7h"]
+size = Vector2(14, 13.25)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_yrff1"]
+size = Vector2(15, 19)
+
+[node name="LargeTree" type="Sprite2D"]
+material = SubResource("ShaderMaterial_6vpey")
+texture = SubResource("AtlasTexture_6vpey")
+offset = Vector2(0, -9.64)
+script = ExtResource("2_4wg7c")
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
+position = Vector2(0, -2.735)
+emitting = false
+lifetime = 0.3
+one_shot = true
+explosiveness = 1.0
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 1.0
+initial_velocity_max = 20.0
+scale_amount_min = 0.0
+scale_amount_max = 5.0
+scale_amount_curve = SubResource("Curve_f4wgc")
+color_ramp = SubResource("Gradient_6vpey")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+position = Vector2(-1, -15)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(1, 11.375)
+shape = SubResource("RectangleShape2D_kiw7h")
+
+[node name="HurtComponent" parent="." instance=ExtResource("3_rcpm7")]
+position = Vector2(-1, -15)
+collision_layer = 16
+collision_mask = 8
+
+[node name="HurtComponentCollisionShape2D" type="CollisionShape2D" parent="HurtComponent"]
+position = Vector2(1, 8)
+shape = SubResource("RectangleShape2D_yrff1")
+debug_color = Color(0.647251, 0.50665, 0.346509, 0.42)
+
+[node name="damage_component" parent="." instance=ExtResource("4_cw5ug")]
+position = Vector2(-1, -15)
+max_damage = 3

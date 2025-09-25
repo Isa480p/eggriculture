@@ -1,0 +1,66 @@
+[gd_scene load_steps=12 format=3 uid="uid://bhagkmq8et7e1"]
+
+[ext_resource type="Shader" uid="uid://q0v11fgxfewq" path="res://scenes/objects/rocks/shake.gdshader" id="1_bntui"]
+[ext_resource type="Texture2D" uid="uid://kp2ete71ma8k" path="res://assets/game/objects/basic_grass_biom_things.png" id="1_f5itc"]
+[ext_resource type="Script" uid="uid://diji8h7c8l7pq" path="res://scenes/objects/rocks/rock.gd" id="2_bntui"]
+[ext_resource type="PackedScene" uid="uid://qottdfr5nd1w" path="res://scenes/components/hurt_component.tscn" id="3_8i8v8"]
+[ext_resource type="PackedScene" uid="uid://d3y81wlg7am1d" path="res://scenes/components/damage_component.tscn" id="4_wj66e"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_8i8v8"]
+resource_local_to_scene = true
+shader = ExtResource("1_bntui")
+shader_parameter/shake_intensity = 0.0
+shader_parameter/shake_speed = 15.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ms1l0"]
+atlas = ExtResource("1_f5itc")
+region = Rect2(128, 16, 16, 16)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ab37s"]
+radius = 7.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_5pald"]
+radius = 5.0
+
+[sub_resource type="Curve" id="Curve_bntui"]
+_data = [Vector2(0.0190217, 1), 0.0, 0.0, 0, 0, Vector2(0.98913, 0.31579), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Gradient" id="Gradient_8i8v8"]
+colors = PackedColorArray(0.3, 0.3, 0.3, 1, 0.662453, 0.662452, 0.662452, 1)
+
+[node name="Rock" type="Sprite2D"]
+material = SubResource("ShaderMaterial_8i8v8")
+texture = SubResource("AtlasTexture_ms1l0")
+script = ExtResource("2_bntui")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+shape = SubResource("CircleShape2D_ab37s")
+
+[node name="HurtComponent" parent="." instance=ExtResource("3_8i8v8")]
+collision_layer = 16
+collision_mask = 8
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtComponent"]
+shape = SubResource("CircleShape2D_5pald")
+debug_color = Color(0.899337, 0.188436, 0.623072, 0.42)
+
+[node name="damage_component" parent="." instance=ExtResource("4_wj66e")]
+max_damage = 5
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
+position = Vector2(0, -2.735)
+emitting = false
+lifetime = 0.5
+one_shot = true
+explosiveness = 1.0
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 1.0
+initial_velocity_max = 20.0
+scale_amount_min = 0.0
+scale_amount_max = 4.0
+scale_amount_curve = SubResource("Curve_bntui")
+color_ramp = SubResource("Gradient_8i8v8")

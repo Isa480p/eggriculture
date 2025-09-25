@@ -1,0 +1,43 @@
+[gd_scene load_steps=6 format=3 uid="uid://et0h3hrscp7q"]
+
+[ext_resource type="Script" uid="uid://dx44devifc1om" path="res://scenes/objects/trees/woodparticles_test.gd" id="1_egdbe"]
+[ext_resource type="Texture2D" uid="uid://bydi4qlalwmaj" path="res://assets/game/objects/egg_item.png" id="2_hybn5"]
+
+[sub_resource type="Theme" id="Theme_kxf08"]
+
+[sub_resource type="Curve" id="Curve_j8j5f"]
+_data = [Vector2(0.0190217, 1), 0.0, 0.0, 0, 0, Vector2(0.98913, 0.31579), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Gradient" id="Gradient_4y5d5"]
+colors = PackedColorArray(0.249942, 0.168444, 0.0776024, 1, 0.807914, 0.651342, 0.482716, 1)
+
+[node name="particles_brown" type="Node2D"]
+script = ExtResource("1_egdbe")
+
+[node name="Button" type="Button" parent="."]
+visible = false
+offset_left = -25.0
+offset_top = -44.0
+offset_right = -1.0
+offset_bottom = -20.0
+theme = SubResource("Theme_kxf08")
+icon = ExtResource("2_hybn5")
+metadata/_edit_use_anchors_ = true
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
+position = Vector2(-184, -108)
+emitting = false
+lifetime = 0.3
+one_shot = true
+explosiveness = 1.0
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 1.0
+initial_velocity_max = 20.0
+scale_amount_min = 0.0
+scale_amount_max = 2.0
+scale_amount_curve = SubResource("Curve_j8j5f")
+color_ramp = SubResource("Gradient_4y5d5")
+
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]

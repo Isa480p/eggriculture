@@ -1,0 +1,33 @@
+[gd_scene load_steps=8 format=3 uid="uid://r4vnpc06hn57"]
+
+[ext_resource type="Shader" uid="uid://q0v11fgxfewq" path="res://scenes/objects/rocks/shake.gdshader" id="1_k7uky"]
+[ext_resource type="Texture2D" uid="uid://kp2ete71ma8k" path="res://assets/game/objects/basic_grass_biom_things.png" id="1_oca81"]
+[ext_resource type="PackedScene" uid="uid://bht8jof7f30br" path="res://scenes/components/collectable_component.tscn" id="2_k7uky"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_dgxlj"]
+resource_local_to_scene = true
+shader = ExtResource("1_k7uky")
+shader_parameter/shake_intensity = 0.0
+shader_parameter/shake_speed = 15.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dgxlj"]
+atlas = ExtResource("1_oca81")
+region = Rect2(112, 16, 16, 16)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_fip5g"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_fip5g"]
+radius = 4.12311
+
+[node name="stone" type="Sprite2D"]
+material = SubResource("ShaderMaterial_dgxlj")
+texture = SubResource("AtlasTexture_dgxlj")
+offset = Vector2(1.345, 1.44)
+
+[node name="CollectableComponent" parent="." instance=ExtResource("2_k7uky")]
+collectable_name = "stone"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CollectableComponent"]
+material = SubResource("ShaderMaterial_fip5g")
+position = Vector2(0, -1)
+shape = SubResource("CircleShape2D_fip5g")
